@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '身怀沙雕后台系统',
+  title: '菜鸟进阶后台系统',
 
   /**
    * @type {boolean} true | false
