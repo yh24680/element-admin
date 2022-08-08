@@ -121,11 +121,12 @@ export default {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {
+            // this.$message.error(err.message)
             this.loading = false
           })
         } else {
-          console.log('error submit!!')
-          this.$message.error('表单数据填写错误')
+          console.log('登录失败，请重试')
+          this.$message.error('登录失败，请重试')
           return false
         }
       })

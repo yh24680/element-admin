@@ -1,10 +1,16 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <div
+      v-if="device === 'mobile' && sidebar.opened"
+      class="drawer-bg"
+      @click="handleClickOutside"
+    />
     <sidebar class="sidebar-container" />
     <div class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
+      <div :class="{ 'fixed-header': fixedHeader }">
+        <navbar>
+        </navbar>
+          <tags-view />
       </div>
       <app-main />
     </div>
@@ -24,16 +30,16 @@ export default {
   },
   mixins: [ResizeMixin],
   computed: {
-    sidebar() {
+    sidebar () {
       return this.$store.state.app.sidebar
     },
-    device() {
+    device () {
       return this.$store.state.app.device
     },
-    fixedHeader() {
+    fixedHeader () {
       return this.$store.state.settings.fixedHeader
     },
-    classObj() {
+    classObj () {
       return {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
@@ -43,7 +49,7 @@ export default {
     }
   },
   methods: {
-    handleClickOutside() {
+    handleClickOutside () {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
   }
@@ -51,43 +57,100 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/mixin.scss";
-  @import "~@/styles/variables.scss";
+@import "~@/styles/mixin.scss";
+@import "~@/styles/variables.scss";
 
-  .app-wrapper {
-    @include clearfix;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    &.mobile.openSidebar{
-      position: fixed;
-      top: 0;
-    }
-  }
-  .drawer-bg {
-    background: #000;
-    opacity: 0.3;
-    width: 100%;
-    top: 0;
-    height: 100%;
-    position: absolute;
-    z-index: 999;
-  }
-
-  .fixed-header {
+.app-wrapper {
+  @include clearfix;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  &.mobile.openSidebar {
     position: fixed;
     top: 0;
-    right: 0;
-    z-index: 9;
-    width: calc(100% - #{$sideBarWidth});
-    transition: width 0.28s;
   }
+}
+.drawer-bg {
+  background: #000;
+  opacity: 0.3;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  position: absolute;
+  z-index: 999;
+}
 
-  .hideSidebar .fixed-header {
-    width: calc(100% - 54px)
-  }
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  width: calc(100% - #{$sideBarWidth});
+  transition: width 0.28s;
+}
 
-  .mobile .fixed-header {
-    width: 100%;
+.hideSidebar .fixed-header {
+  width: calc(100% - 54px);
+}
+
+.mobile .fixed-header {
+  width: 100%;
+}
+.sidebar-container {
+  background: -webkit-linear-gradient(bottom, #3d6df8, #5b8cff);
+}
+</style>
+<style lang="scss" scoped>
+::v-deep .scrollbar-wrapper {
+  background: url("~@/./assets/common/leftnavBg.png") no-repeat 0 100%;
+}
+::v-deep .el-menu {
+  border: none;
+  height: 100%;
+  width: 100% !important;
+  a {
+    li {
+      .svg-icon {
+        color: #fff;
+        font-size: 18px;
+        vertical-align: middle;
+        .icon {
+          color: #fff;
+        }
+      }
+      span {
+        color: #fff;
+      }
+      &:hover {
+        .svg-icon {
+          color: #43a7fe;
+        }
+        span {
+          color: #43a7fe;
+        }
+      }
+    }
   }
+}
+.navbar {
+  background-color: #5283fd;
+}
+::v-deep .app-breadcrumb.el-breadcrumb .no-redirect {
+  color: #fff;
+}
+.user-avatar {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  vertical-align: middle;
+}
+.name {
+  color: #fff;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.user-dropdown {
+  color: #fff;
+}
 </style>
